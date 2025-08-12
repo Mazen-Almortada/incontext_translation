@@ -25,8 +25,8 @@ app_license = "mit"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/incontext_translation/css/incontext_translation.css"
-# app_include_js = "/assets/incontext_translation/js/incontext_translation.js"
+app_include_js = ["/assets/incontext_translation/js/translation_mode.js"]
+app_include_css = ["/assets/incontext_translation/css/translation_mode.css"]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/incontext_translation/css/incontext_translation.css"
