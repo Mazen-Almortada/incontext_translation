@@ -1,10 +1,10 @@
 # In-Context Custom Translation for Frappe Apps
 
-A Frappe app that provides **fast in-context custom translation** for Frappe apps.  
-With this app, you can translate text directly from the user interface without switching screens or searching for the source text.
+A Frappe app for creating custom translations right where you see them. Work faster with in-context editing and one-click automated suggestions.
 
 ## ✨ Features
 
+- **Automated Suggestions**: Get instant, one-click translation suggestions.
 - **In-Context Editing**: Edit translations directly on the page where the text appears.
 - **Quick Translation Dialog**: Instantly add or update translations with an easy-to-use popup.
 - **Optional Context Support**: Control whether a translation is saved with specific context.
@@ -38,6 +38,8 @@ With this app, you can translate text directly from the user interface without s
 ## 🔧 Configuration
 
 **Permissions**: Only **System Manager** or **Translation Editor** roles can use this feature.
+
+**Dependencies**: This app uses the `deep-translator` library for the translation suggestion feature.
 
 **Customization**: You can extend the list of selectors in `translation_mode.js` to target more elements.
 
