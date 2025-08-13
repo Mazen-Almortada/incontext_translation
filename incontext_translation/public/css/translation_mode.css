@@ -16,3 +16,86 @@ html[data-inctx] .inctx-pencil {
 html[data-inctx] .inctx-has-pencil:hover + .inctx-wrap .inctx-pencil {
   opacity: 1;
 }
+.inctx-dialog
+  .form-section
+  .frappe-control[data-fieldname="translated_text"]
+  .clearfix {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.inctx-dialog
+  .form-section
+  .frappe-control[data-fieldname="translated_text"]
+  .clearfix::after {
+  display: none !important;
+}
+
+.inctx-suggest-icon {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.inctx-suggest-icon:hover {
+  color: var(--text-color);
+}
+
+.inctx-dialog .frappe-control .control-input {
+  position: relative;
+}
+
+.inctx-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inctx-loader::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--text-light);
+  border-top-color: var(--primary);
+  animation: inctx-spin 1s linear infinite;
+}
+
+@keyframes inctx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.inctx-shake {
+  animation: inctx-shake-anim 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes inctx-shake-anim {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}

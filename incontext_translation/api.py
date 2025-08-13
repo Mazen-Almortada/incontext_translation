@@ -6,6 +6,7 @@ from .utils import (
     get_field_label_source, find_english_source_from_displayed,
     check_placeholders_match, invalidate_index
 )
+from deep_translator import GoogleTranslator
 
 def _force_context_dict(raw) -> Dict[str, Any]:
     if not raw:
@@ -89,6 +90,16 @@ def resolve_source_and_existing(displayed, context=None, target_lang="ar"):
             "route": None,
         }
 
+@frappe.whitelist()
+def suggest_translation(source_text: str, target_lang: str) -> str:
+    if not source_text or not target_lang:
+        return ""
+    try:
+        return GoogleTranslator(source='auto', target=target_lang).translate(source_text)
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "In-Context Translation Suggestion Failed")
+        return ""
+    
 @frappe.whitelist()
 def save_custom_translation(language: str, source_text: str, translated_text: str, context: str = ""):
     frappe.only_for(("System Manager", "Translation Editor"))

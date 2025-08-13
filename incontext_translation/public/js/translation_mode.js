@@ -336,7 +336,72 @@
     d.$wrapper.on("shown.bs.modal", () => {
       const useField = d.get_field("use_context");
       const ctxField = d.get_field("context");
+      const translatedTextField = d.get_field("translated_text");
+      const labelContainer = translatedTextField.label_area;
+      const parintEl = labelContainer.parentElement;
+      const suggestionIcon = $(`<span class="inctx-suggest-icon" title="${__(
+        "Suggest Translation"
+      )}">
+          <i class="fa fa-magic"></i>
+      </span>`).appendTo(parintEl);
 
+      suggestionIcon.tooltip({
+        placement: "top",
+        delay: { show: 600, hide: 100 },
+      });
+      on(suggestionIcon[0], "click", async () => {
+        const sourceText = d.get_value("source_text");
+        const targetLang = d.get_value("language");
+
+        if (!sourceText) {
+          frappe.msgprint(__("Please enter the source text first."));
+          return;
+        }
+
+        const translatedTextField = d.get_field("translated_text");
+        const inputArea = translatedTextField.input_area;
+        const loader = $('<div class="inctx-loader"></div>').appendTo(
+          inputArea
+        );
+
+        const showErrorEffect = () => {
+          const input = translatedTextField.input_area;
+          input.classList.add("inctx-shake");
+          setTimeout(() => input.classList.remove("inctx-shake"), 820);
+        };
+
+        try {
+          const response = await frappe.call({
+            method: "incontext_translation.api.suggest_translation",
+            args: {
+              source_text: sourceText,
+              target_lang: targetLang,
+            },
+          });
+
+          if (response.message) {
+            d.set_value("translated_text", response.message);
+          } else {
+            showErrorEffect();
+            frappe.show_alert({
+              message: __("Could not get a suggestion."),
+              indicator: "orange",
+            });
+          }
+        } catch (e) {
+          console.error("suggest translation failed", e);
+          showErrorEffect();
+          frappe.show_alert({
+            message: __(
+              "An error occurred. Please check your connection and try again."
+            ),
+
+            indicator: "red",
+          });
+        } finally {
+          loader.remove();
+        }
+      });
       const apply = () => {
         const on = !!d.get_value("use_context");
         d.set_df_property("context", "read_only", !on);
